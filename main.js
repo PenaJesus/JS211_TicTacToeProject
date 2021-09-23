@@ -18,6 +18,40 @@ let board = [
   [' ', ' ', ' ']
 ];
 
+const handleClick = (element) => {
+
+  // this uses the "log" method on the "console" to log out the element's id so we can see it with our human eyes
+  console.log(`The element you clicked on has an id:  ${element.id}`)
+
+  // this next line prevents an X being changed to an O or an O being changed to an X by...
+  //  checking to see if the square clicked has anything in it, if not continue
+  if(!document.getElementById(element.id).innerHTML){
+    addMarker(element.id)
+  }
+}
+
+const addMarker = (id) => {
+  
+  const row = parseInt(id.charAt(0))
+  const column = parseInt(id.charAt(2))
+  board[row][column] = playerTurn
+ 
+  console.log(`*** The current marker is:  ${playerTurn}. ***`)
+  console.log(`Therefore, a  "${playerTurn}"  should be placed in the square with the id:  ${id}`)
+  
+  document.getElementById(id).innerHTML = playerTurn
+
+  checkForWin()
+  
+}
+
+const changeMarker = () => {
+  if(playerTurn === "X"){
+    playerTurn = "O"
+  } else {
+    playerTurn = "X"
+  }
+}
 // assigns the first mark as 'X'
 // using let because the variable is expected to change from 'X' to 'O' and back
 let playerTurn = 'X';
@@ -33,24 +67,55 @@ const printBoard = () => {
 }
 
 const horizontalWin = () => {
-  // Your code here to check for horizontal wins
+  if((board[0][0] == playerTurn && board[0][1] == playerTurn && board[0][2] == playerTurn) 
+  || (board[1][0] == playerTurn && board[1][1] == playerTurn && board[1][2] == playerTurn)
+  || (board[2][0] == playerTurn && board[2][1] == playerTurn && board[2][2] == playerTurn)
+) return true;
+else return false;
 }
+  // Your code here to check for horizontal wins
+
 
 const verticalWin = () => {
-  // Your code here to check for vertical wins
+  if((board[0][0] == playerTurn && board[1][0] == playerTurn && board[2][0] == playerTurn)
+|| (board[0][1] == playerTurn && board[1][1] == playerTurn && board[2][1] == playerTurn)
+|| (board[0][2] == playerTurn && board[1][2] == playerTurn && board[2][2] == playerTurn)
+)return true;
+else return false;
 }
+  // Your code here to check for vertical wins
+
 
 const diagonalWin = () => {
+  if((board[0][0] == playerTurn && board[1][1] == playerTurn && board[2][2] == playerTurn)
+|| (board[0][2] == playerTurn && board[1][1] == playerTurn && board[2][0] == playerTurn)
+){ console.log(board)
+return true;
+ } else return false;
   // Your code here to check for diagonal wins
 }
 
 const checkForWin = () => {
+  if(horizontalWin() || verticalWin() || diagonalWin()) {
+    console.log(`Player ${playerTurn} won!`)
+    return true
+  } else {
+    changeMarker()
   // Your code here call each of the check for types of wins
+  return false
+} 
 }
 
 const ticTacToe = (row, column) => {
-  // Your code here to place a marker on the board
-  // then check for a win
+  board[row][column] = playerTurn
+  
+  console.log(`*** The current marker is:  ${playerTurn}. ***`)
+  
+  
+
+  checkForWin()
+
+  
 }
 
 const getPrompt = () => {

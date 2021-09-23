@@ -22,12 +22,23 @@ const handleClick = (element) => {
   if(!document.getElementById(element.id).innerHTML){
     addMarker(element.id)
     updateBoard(element.id)
-    checkForWin()
+    
   }
 }
 
 const addMarker = (id) => {
   console.log(`We'll place a mark on square: ${id}`)
+ 
+ 
+  const row = parseInt(id.charAt(0))
+  const column = parseInt(id.charAt(2))
+  board[row][column] = currentMarker
+  console.log(`*** The current marker is:  ${currentMarker}. ***`)
+  console.log(`Therefore, a  "${currentMarker}"  should be placed in the square with the id:  ${id}`)
+  
+  document.getElementById(id).innerHTML = currentMarker
+
+  checkForWin()
   // @TODO, Mix & Match. 
   // You will need the following pieces:
   
@@ -66,19 +77,38 @@ const checkForWin = () => {
 
 const horizontalWin = () => {
   // @TODO, Your code here: to check for horizontal wins
+  if((board[0][0] == currentMarker && board[0][1] == currentMarker && board[0][2] == currentMarker) 
+  || (board[1][0] == currentMarker && board[1][1] == currentMarker && board[1][2] == currentMarker)
+  || (board[2][0] == currentMarker && board[2][1] == currentMarker && board[2][2] == currentMarker)
+) return true;
+else return false;
 }
 
 const verticalWin = () => {
   // @TODO, Your code here: to check for vertical wins
+  if((board[0][0] == currentMarker && board[1][0] == currentMarker && board[2][0] == currentMarker)
+|| (board[0][1] == currentMarker && board[1][1] == currentMarker && board[2][1] == currentMarker)
+|| (board[0][2] == currentMarker && board[1][2] == currentMarker && board[2][2] == currentMarker)
+)return true;
+else return false;
 }
 
 const diagonalWin = () => {
   // @TODO, Your code here: to check for diagonal wins
+  if((board[0][0] == currentMarker && board[1][1] == currentMarker && board[2][2] == currentMarker)
+|| (board[0][2] == currentMarker && board[1][1] == currentMarker && board[2][0] == currentMarker)
+){ console.log(board)
+return true;
+ } else return false;
 }
 
 const changeMarker = () => {
   // ternary operator: if it's an X make it an O, if O make it an X
-  currentMarker = currentMarker === "X" ? "O" : "X"
+  if(currentMarker === "X"){
+    currentMarker = "O"
+  } else {
+    currentMarker = "X"
+  }
 }
 
 const resetBoard = () => {
@@ -91,6 +121,11 @@ const resetBoard = () => {
   // loops over the HTML Collections and clears out the Xs and Os
   for (i=0; i<squares.length; i++) {
     console.log(squares[i])
+    board = [
+      ["","",""],
+      ["","",""],
+      ["","",""],
+    ]
     squares[i].innerHTML = null
   }
   
